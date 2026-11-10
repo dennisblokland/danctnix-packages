@@ -1,7 +1,7 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 pkgname=device-pine64-pinetab
 pkgver=0.2
-pkgrel=4
+pkgrel=5
 pkgdesc="PineTab device package"
 arch=(aarch64)
 url="https://github.com/dreemurrs-embedded/Pine64-Arch"
@@ -13,14 +13,16 @@ depends=(danctnix-tweaks
 	ov5640-firmware
 	alsa-ucm-pinetab)
 makedepends=(uboot-tools)
-backup=(boot/user.scr)
+backup=(boot/user.scr
+	etc/megapixels/config/pine64,pinetab-early-adopter.conf)
 source=(pinetab-suspend-hook.sh
 	phoc.ini
 	machine-info
 	pulseaudio-pinetweaks.conf
 	gsk-renderer-gl.sh
 	blacklist-rtw8723cs.conf
-	user.txt)
+	user.txt
+	megapixels-pinetab.conf)
 
 build() {
 	mkimage -A arm -O linux -T script -C none -n "PineTab user script" -d "$srcdir"/user.txt "$srcdir"/user.scr
@@ -44,6 +46,11 @@ package() {
 
 	# Load the Early Adopter DTB (K101-IM2BYL02 panel), see user.txt
 	install -Dm644 "$srcdir"/user.scr "$pkgdir"/boot/user.scr
+
+	# Camera config for Megapixels, see megapixels-pinetab.conf
+	install -Dm644 "$srcdir"/megapixels-pinetab.conf \
+		"$pkgdir"/etc/megapixels/config/pine64,pinetab-early-adopter.conf
+	ln -s pine64,pinetab-early-adopter.conf "$pkgdir"/etc/megapixels/config/pine64,pinetab.conf
 }
 
 md5sums=('b0912b95d7d810a0f161d9bd79fc162b'
@@ -52,4 +59,5 @@ md5sums=('b0912b95d7d810a0f161d9bd79fc162b'
          '1504e684e5a2aec439e0674cdfc9d3c1'
          'df623da01912f5ce89c178639fc22656'
          '67b01e6304228725c3a971065feaa7ce'
-         '226f37f0b952614b6928864c8bf7898e')
+         '226f37f0b952614b6928864c8bf7898e'
+         'b9d3309b05793bc35528c45d8e3e0492')
