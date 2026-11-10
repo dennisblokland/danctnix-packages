@@ -1,0 +1,14 @@
+pkgbase = alsa-ucm-pinetab
+	pkgdesc = UCM files for PineTab
+	pkgver = 0.5.0
+	pkgrel = 3
+	url = https://github.com/dreemurrs-embedded/Pine64-Arch
+	arch = any
+	license = MIT
+	depends = alsa-ucm-conf
+	source = HiFi.conf
+	source = PineTab.conf
+	md5sums = df83fa13821c458b03120dc7fefc8fa0
+	md5sums = b536395b1fd6f6442c51b00242307c9d
+
+pkgname = alsa-ucm-pinetab

@@ -1,7 +1,7 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 pkgname=alsa-ucm-pinetab
 pkgver=0.5.0
-pkgrel=2
+pkgrel=3
 pkgdesc="UCM files for PineTab"
 arch=(any)
 url="https://github.com/dreemurrs-embedded/Pine64-Arch"
@@ -21,5 +21,5 @@ package() {
         "$pkgdir"/usr/share/alsa/ucm2/conf.d/simple-card/PineTab.conf
 }
 
-md5sums=('929a19fb01e6d6960a98b0bbdd3491ac'
+md5sums=('df83fa13821c458b03120dc7fefc8fa0'
          'b536395b1fd6f6442c51b00242307c9d')
