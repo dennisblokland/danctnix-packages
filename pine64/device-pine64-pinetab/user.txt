@@ -1,0 +1,31 @@
+# U-Boot user script for the PineTab (installed as /boot/user.scr).
+#
+# Retail PineTab units (Early Adopter batch, 2020) have the K101-IM2BYL02
+# panel, which is only described in sun50i-a64-pinetab-early-adopter.dtb.
+# U-Boot's pinetab_defconfig always loads sun50i-a64-pinetab.dtb, which is
+# the Developer Sample (K101-IM2BA02 panel), so retail units get a black
+# screen without this script.
+#
+# boot.txt sources user.scr *after* it has loaded ${fdtfile}, applied
+# ram_freq and the PSCI overlay, so setting fdtfile alone is not enough:
+# reload the DTB and redo those steps.
+#
+# Developer Sample owners: add "NoExtract = boot/user.scr" to
+# /etc/pacman.conf, then delete /boot/user.scr.
+
+echo "user.scr: switching to PineTab Early Adopter DTB"
+setenv fdtfile allwinner/sun50i-a64-pinetab-early-adopter.dtb
+load mmc ${mmc_bootdev}:1 ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile}
+
+fdt addr ${fdt_addr_r}
+fdt resize
+
+if printenv ram_freq; then
+	fdt mknode / memory
+	fdt set /memory ram_freq ${ram_freq}
+fi
+
+if test ${iscpscienabled} -eq 1; then
+	load mmc ${mmc_bootdev}:1 ${fdtoverlay_addr_r} sun50i-a64-psci.dtbo
+	fdt apply ${fdtoverlay_addr_r}
+fi

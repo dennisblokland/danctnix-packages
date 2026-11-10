@@ -1,21 +1,30 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 pkgname=device-pine64-pinetab
 pkgver=0.2
-pkgrel=3
+pkgrel=4
 pkgdesc="PineTab device package"
 arch=(aarch64)
 url="https://github.com/dreemurrs-embedded/Pine64-Arch"
 license=('MIT')
-depends=(linux-megi
+depends=(danctnix-tweaks
+	linux-megi
 	uboot-pinephone
-	rtl8723bt-firmware
+	linux-firmware-realtek
 	ov5640-firmware
 	alsa-ucm-pinetab)
+makedepends=(uboot-tools)
+backup=(boot/user.scr)
 source=(pinetab-suspend-hook.sh
 	phoc.ini
 	machine-info
 	pulseaudio-pinetweaks.conf
-	gsk-renderer-gl.sh)
+	gsk-renderer-gl.sh
+	blacklist-rtw8723cs.conf
+	user.txt)
+
+build() {
+	mkimage -A arm -O linux -T script -C none -n "PineTab user script" -d "$srcdir"/user.txt "$srcdir"/user.scr
+}
 
 package() {
 	# Current workaround for suspend
@@ -29,10 +38,18 @@ package() {
 	install -Dm644 "$srcdir"/pulseaudio-pinetweaks.conf "$pkgdir"/etc/pulse/daemon.conf.d/pinetweaks.conf
 
 	install -Dm755 "$srcdir"/gsk-renderer-gl.sh -t "$pkgdir"/etc/profile.d/
+
+	# rtw88_8723cs fails 802.11 authentication on the PineTab; use 8723cs
+	install -Dm644 -t "$pkgdir"/etc/modprobe.d "$srcdir"/blacklist-rtw8723cs.conf
+
+	# Load the Early Adopter DTB (K101-IM2BYL02 panel), see user.txt
+	install -Dm644 "$srcdir"/user.scr "$pkgdir"/boot/user.scr
 }
 
 md5sums=('b0912b95d7d810a0f161d9bd79fc162b'
          'ecd8742a921d805e6756abc522da1dba'
          '340993065eb26f928700733369be2d9b'
          '1504e684e5a2aec439e0674cdfc9d3c1'
-         'df623da01912f5ce89c178639fc22656')
+         'df623da01912f5ce89c178639fc22656'
+         '67b01e6304228725c3a971065feaa7ce'
+         '226f37f0b952614b6928864c8bf7898e')
