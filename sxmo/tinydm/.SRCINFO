@@ -1,0 +1,15 @@
+pkgbase = tinydm
+	pkgdesc = Tiny wayland / x11 session starter for single user machines
+	pkgver = 1.3.1
+	pkgrel = 1
+	url = https://gitlab.nura.eco/nura/tinydm
+	arch = x86_64
+	arch = armv7h
+	arch = aarch64
+	license = GPL3
+	makedepends = git
+	depends = xorg-xinit
+	source = git+https://gitlab.nura.eco/nura/tinydm#tag=1.3.1
+	sha512sums = fd9a7a19931cb886cddc78e8550ff1af27a6eef36f909adb5966023e6fc114706e33b4f4df710360a70d812d6beceaf6c02773c1012e964709052d2b2c8158b0
+
+pkgname = tinydm
