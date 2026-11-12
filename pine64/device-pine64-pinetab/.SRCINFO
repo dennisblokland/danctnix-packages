@@ -1,7 +1,7 @@
 pkgbase = device-pine64-pinetab
 	pkgdesc = PineTab device package
 	pkgver = 0.2
-	pkgrel = 5
+	pkgrel = 6
 	url = https://github.com/dreemurrs-embedded/Pine64-Arch
 	arch = aarch64
 	license = MIT
@@ -22,6 +22,7 @@ pkgbase = device-pine64-pinetab
 	source = blacklist-rtw8723cs.conf
 	source = user.txt
 	source = megapixels-pinetab.conf
+	source = 8723cs-sleep.sh
 	md5sums = b0912b95d7d810a0f161d9bd79fc162b
 	md5sums = ecd8742a921d805e6756abc522da1dba
 	md5sums = 340993065eb26f928700733369be2d9b
@@ -30,5 +31,6 @@ pkgbase = device-pine64-pinetab
 	md5sums = 67b01e6304228725c3a971065feaa7ce
 	md5sums = 226f37f0b952614b6928864c8bf7898e
 	md5sums = b9d3309b05793bc35528c45d8e3e0492
+	md5sums = a5e0eb2e785583b9e80bd1e9df837ca7
 
 pkgname = device-pine64-pinetab

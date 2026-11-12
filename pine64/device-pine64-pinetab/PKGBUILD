@@ -1,7 +1,7 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 pkgname=device-pine64-pinetab
 pkgver=0.2
-pkgrel=5
+pkgrel=6
 pkgdesc="PineTab device package"
 arch=(aarch64)
 url="https://github.com/dreemurrs-embedded/Pine64-Arch"
@@ -22,7 +22,8 @@ source=(pinetab-suspend-hook.sh
 	gsk-renderer-gl.sh
 	blacklist-rtw8723cs.conf
 	user.txt
-	megapixels-pinetab.conf)
+	megapixels-pinetab.conf
+	8723cs-sleep.sh)
 
 build() {
 	mkimage -A arm -O linux -T script -C none -n "PineTab user script" -d "$srcdir"/user.txt "$srcdir"/user.scr
@@ -44,6 +45,9 @@ package() {
 	# rtw88_8723cs fails 802.11 authentication on the PineTab; use 8723cs
 	install -Dm644 -t "$pkgdir"/etc/modprobe.d "$srcdir"/blacklist-rtw8723cs.conf
 
+	# 8723cs does not bring the SDIO card back after deep suspend; reload it around sleep
+	install -Dm755 "$srcdir"/8723cs-sleep.sh "$pkgdir"/usr/lib/systemd/system-sleep/50-8723cs.sh
+
 	# Load the Early Adopter DTB (K101-IM2BYL02 panel), see user.txt
 	install -Dm644 "$srcdir"/user.scr "$pkgdir"/boot/user.scr
 
@@ -60,4 +64,5 @@ md5sums=('b0912b95d7d810a0f161d9bd79fc162b'
          'df623da01912f5ce89c178639fc22656'
          '67b01e6304228725c3a971065feaa7ce'
          '226f37f0b952614b6928864c8bf7898e'
-         'b9d3309b05793bc35528c45d8e3e0492')
+         'b9d3309b05793bc35528c45d8e3e0492'
+         'a5e0eb2e785583b9e80bd1e9df837ca7')
